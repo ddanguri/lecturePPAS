@@ -68,3 +68,8 @@ search_path : 특정 유저가 조회하는 스키마 순서
 설정파일은 클러스터마다 있다.
 (postgresql.conf)
 
+
+pg_hba.conf에 md5 로 되어있는데 패스워드를 안물어보는 이유 
+=> .pgpass (home directory => cd ~) 에 해당 db 아이디와 패스워드 정보가
+등록되어 있으면 패스한다. 이 파일을 지우면 패스워드를 물어보게 된다.
+

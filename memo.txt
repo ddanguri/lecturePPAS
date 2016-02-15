@@ -1,0 +1,70 @@
+<1일차>
+
+- autovaccum 
+
+oracle의 경우 undo space 에 정보를 가지고 있는데, postgreSQL은 그렇지않다
+올드 데이터를 만들어 놓음. old version에 대한 데이터가 무한정 커지는 것을
+막기위해 기존 데이터를 reuse 하기 위한 기능이 vaccum이다.
+autovaccum은 이러한 기능을 자동으로 처리하기 위한 기능.
+
+- Postmaster
+
+오라클의 listener 기능을 담당하는 마스터 프로세스.
+요청이 클라이언트로부터 오면 Postmaster가 요청을 받는다.
+그렇게 되면 Postgres란 백앤드 프로세스가 뜨고 클라이언트의 요청을 처리한다.
+work mem이라는 메모리영역이 백엔드 프로세스에 할당이 되면서
+파싱된 sql 정보를 가지고 있다가 재사용하는 용도로 사용한다.
+
+
+요청이 오면 디스크에 있는 정보를 읽어서 메모리에 올려서 처리.
+
+
+- CLUSTER
+오라클로 치면 instance라고 볼 수 있다.
+
+
+> oracle
+Instance(DB) -> User(Schema) -> Objects..
+
+>ppas
+Cluster -> Database -> User(Schema) -> Objects..
+
+클러스터는 데이터베이스 전체를 묶어주는 인스턴스 정도로 이해하면될듯
+
+하나의 클러스터를 만들면 하나의 Postmaster 가 만들어지게된다.
+
+
+- Cluster Data Directory Structure
+/ data
+-> global : 각종 메타 정보들
+-> base : 이 밑에 데이터베이스 관련 파일들이 만들어 지게된다. (여러개의 데이터 베이스 등)
+-> pg_tblspc : 테이블 스페이스
+
+postgresql.conf : 기본 설정
+pg_hba.conf : 접속정보 관리 (허용되는 접속 정보 관리)
+
+vaccum이 free space map, visibility map을 만들어준다.
+
+-------------------------------------------------------------
+실습
+
+su - enterprisedb (사용자 변경)
+
+psql edb enterprisedb (디비명 유저명)
+
+>> edb 안에서의 명령어
+
+\c postgres enterprisedb <- 다른 디비 접속
+
+
+db중에서 template0과 template1은 무조건 생기는 db다.
+
+
+search_path : 특정 유저가 조회하는 스키마 순서
+
+
+----------------------------------------------------------------
+
+설정파일은 클러스터마다 있다.
+(postgresql.conf)
+
